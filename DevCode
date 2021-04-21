@@ -1,0 +1,42 @@
+$CamParams = array ("ImageWidth"=>1296,"ImageHeight"=>972,"Brightness"=>50);
+#var_dump($CamParams);
+
+#echo json_encode($CamParams);
+
+$myfile = fopen("/var/www/CamInterface/CamParams.config", "w") or die("Unable to open file!");
+
+fwrite($myfile, json_encode($CamParams));
+
+fclose($myfile);
+
+#echo "contents written<br>";
+
+$myfile = fopen("/var/www/CamInterface/CamParams.config", "r") or die("Unable to open file!");
+$jsonCamParams1 = fread($myfile,filesize("/var/www/CamInterface/CamParams.config"));
+fclose($myfile);
+#echo $jsonCamParams1;
+
+#echo "<br><br>";
+
+$CamParams1 = json_decode($jsonCamParams1);
+/*echo var_dump($CamParams1);
+
+echo "<br><br>";
+echo $CamParams1->ImageWidth . "<br>";
+echo $CamParams1->ImageHeight . "<br>";;
+echo $CamParams1->Brightness;
+
+echo "<br><br>";
+echo scandir("Videos"); */
+
+#var_dump($FilesArray);
+
+
+#$ImageFile = '/CamInterface/image000006.jpg';
+#$VidFile = '/CamInterface/Videos/2021-04-09_22_13.mp4';
+
+#print('<img src="' . $ImageFile . '" width="400" height="300" >');
+#print('<embed type="video/webm" src="' . $VidFile . '" width="400" height="300" >');
+
+
+

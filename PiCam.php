@@ -11,7 +11,7 @@
 
 <body>
 <?php
-
+// git test
 echo "<H2>System Name: " . gethostname() . " at " . $_SERVER['SERVER_ADDR'] . ":" . $_SERVER['SERVER_PORT'] . "</H2>" ;
 
 $FilesArray = scandir("/var/www/CamInterface/Videos");

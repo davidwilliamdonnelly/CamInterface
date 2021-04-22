@@ -36,7 +36,7 @@ while (True):
     currentTimeFormatted = currentTime.strftime("%Y-%m-%d  %H:%M:%S")
     print('Annotating photos: Current Time is ' + currentTimeFormatted)
 
-    system('/home/pi/timelapse/test.sh')
+    system('/var/www/CamInterface/Code/test.sh')
     
     currentTime = datetime.datetime.now()
     currentTimeFormatted = currentTime.strftime("%Y-%m-%d  %H:%M:%S")

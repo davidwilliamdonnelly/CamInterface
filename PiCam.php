@@ -15,36 +15,25 @@ echo "<H2>System Name: " . gethostname() . " at " . $_SERVER['SERVER_ADDR'] . ":
 ?>
 
 <div id="center_button">
-    <button onclick="location.href='/CamInterface/PiCam.php?action=stop'">Stop</button>
-    <button onclick="location.href='/CamInterface/PiCam.php?action=run'">Run</button>
-
+    <button onclick="location.href='/CamInterface/PiCam.php'">Refresh</button>
+    <button onclick="location.href='/CamInterface/PiCam.php?action=stop'">Stop Timelapse</button>
+    <button onclick="location.href='/CamInterface/PiCam.php?action=run'">Start Timelapse</button>
+	<br><br>
 </div>
 
 <?php
 $Action = $_GET["action"];
-echo $Action . "<br>";
 
 if($Action == "stop") {
-	print("action is stop <br>");
-	#exec("/usr/bin/sudo killall python3", $output, $return_var);
 	os.system("/usr/bin/sudo killall python3 > /dev/null &");
+	echo "Timelapse Stopped<br><br>";
 }
 elseif ($Action == "run") {
-	print("action is run <br>");
-	#exec("/usr/bin/python3 /var/www/CamInterface/Code/timelapse.py &", $output, $return_var);
 	os.system("python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
+	sleep(3);
+	echo "Timelapse Started<br><br>";
 }
  
-
-print_r($output);
-print("<br>");
-print("<br>");
-
- $result_array=explode(' ',$output);
-        echo "Output: ".$result_array."<br>";
-        echo "Exit status: ".$return_var."<br>";
-
-
 $FilesArray = scandir("/var/www/CamInterface/Videos");
 $PicsArray = scandir("/var/www/CamInterface/Pictures", 1);
 

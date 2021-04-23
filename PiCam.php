@@ -11,8 +11,39 @@
 
 <body>
 <?php
-// git test
 echo "<H2>System Name: " . gethostname() . " at " . $_SERVER['SERVER_ADDR'] . ":" . $_SERVER['SERVER_PORT'] . "</H2>" ;
+?>
+
+<div id="center_button">
+    <button onclick="location.href='/CamInterface/PiCam.php?action=stop'">Stop</button>
+    <button onclick="location.href='/CamInterface/PiCam.php?action=run'">Run</button>
+
+</div>
+
+<?php
+$Action = $_GET["action"];
+echo $Action . "<br>";
+
+if($Action == "stop") {
+	print("action is stop <br>");
+	#exec("/usr/bin/sudo killall python3", $output, $return_var);
+	os.system("/usr/bin/sudo killall python3 > /dev/null &");
+}
+elseif ($Action == "run") {
+	print("action is run <br>");
+	#exec("/usr/bin/python3 /var/www/CamInterface/Code/timelapse.py &", $output, $return_var);
+	os.system("python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
+}
+ 
+
+print_r($output);
+print("<br>");
+print("<br>");
+
+ $result_array=explode(' ',$output);
+        echo "Output: ".$result_array."<br>";
+        echo "Exit status: ".$return_var."<br>";
+
 
 $FilesArray = scandir("/var/www/CamInterface/Videos");
 $PicsArray = scandir("/var/www/CamInterface/Pictures", 1);

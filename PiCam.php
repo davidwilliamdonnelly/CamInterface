@@ -18,6 +18,7 @@ echo "<H2>System Name: " . gethostname() . " at " . $_SERVER['SERVER_ADDR'] . ":
     <button onclick="location.href='/CamInterface/PiCam.php'">Refresh</button>
     <button onclick="location.href='/CamInterface/PiCam.php?action=stop'">Stop Timelapse</button>
     <button onclick="location.href='/CamInterface/PiCam.php?action=run'">Start Timelapse</button>
+    <button onclick="location.href='/CamInterface/PiCam.php?action=webcam'">Web Cam</button>
 	<br><br>
 </div>
 
@@ -29,9 +30,17 @@ if($Action == "stop") {
 	echo "Timelapse Stopped<br><br>";
 }
 elseif ($Action == "run") {
+	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
+	sleep(1);
 	os.system("python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
 	sleep(3);
 	echo "Timelapse Started<br><br>";
+}
+elseif ($Action == "webcam") {
+	os.system("/usr/bin/sudo killall python3 > /dev/null &");
+	sleep(1);
+	os.system("/home/pi/RPi_Cam_Web_Interface/start.sh > /dev/null &");
+	Print('<meta http-equiv="refresh" content="0;url=/html/index.php">');
 }
  
 $FilesArray = scandir("/var/www/CamInterface/Videos");

@@ -4,10 +4,22 @@ from picamera import PiCamera
 from os import system
 import datetime
 from time import sleep
+import re, subprocess
 
 #import os, getpass
 #print ("Env thinks the user is [%s]" % (os.getlogin()));
 #print ("Effective user is [%s]" % (getpass.getuser()));
+
+def check_CPU_temp():
+    temp = None
+    err, msg = subprocess.getstatusoutput('vcgencmd measure_temp')
+    if not err:
+        m = re.search(r'-?\d\.?\d*', msg)   # a solution with a  regex
+        try:
+            temp = float(m.group())
+        except ValueError: # catch only error needed
+            pass
+    return temp, msg
 
 tlminutes = 120 #set this to the number of minutes you wish to run your timelapse camera
 secondsinterval = 5 #number of seconds delay between each photo taken
@@ -17,6 +29,10 @@ print("number of photos to take = ", numphotos)
 
 camera = PiCamera()
 camera.resolution = (1296, 972)
+
+f = open("/home/pi/RecroomShare/PZtemplog.txt", "a")
+f.write("\n\n**********************************************************************\n\n")
+f.close()
 
 while (True):
     
@@ -30,6 +46,12 @@ while (True):
         #currentTime = datetime.datetime.now()
         #currentTimeFormatted = currentTime.strftime("%Y-%m-%d  %H:%M:%S")
         #print('Picture {0:03d}'.format(i) + ' taken at ' + currentTimeFormatted)
+        temp, msg = check_CPU_temp()
+        currentTime = datetime.datetime.now()
+        currentTimeFormatted = currentTime.strftime("%Y-%m-%d  %H:%M:%S")
+        f = open("/home/pi/RecroomShare/PZtemplog.txt", "a")
+        f.write(currentTimeFormatted + "  " + msg + "\n")
+        f.close()
         sleep(secondsinterval)
 
     print("Done taking photos for this video.")

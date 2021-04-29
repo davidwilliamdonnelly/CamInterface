@@ -34,17 +34,12 @@ echo "<H3>Function: PicStream</H3>" ;
 <?php
 $Action = $_GET["action"];
 
-if($Action == "stop") {
+if ($Action == "run") {
 	os.system("/usr/bin/sudo killall python3 > /dev/null &");
-	echo "Timelapse Stopped<br><br>";
-}
-elseif ($Action == "run") {
 	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
 	sleep(1);
-	os.system("python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
-	sleep(3);
-	echo "Timelapse Started<br><br>";
-}
+	Print('<meta http-equiv="refresh" content="0;url=/CamInterface/PicStream.php">');
+	}
 elseif ($Action == "webcam") {
 	os.system("/usr/bin/sudo killall python3 > /dev/null &");
 	sleep(1);
@@ -57,8 +52,7 @@ elseif ($Action == "picstream") {
 	sleep(1);
 	Print('<meta http-equiv="refresh" content="0;url=/CamInterface/PicStream.php">');
 } 
-os.system("python3 /var/www/CamInterface/Code/PicStream.py /var/www/CamInterface/PicStream/image.jpg > /dev/null &");
-sleep(4);
+os.system("python3 /var/www/CamInterface/Code/PicStream.py /var/www/CamInterface/PicStream/image.jpg > /dev/null");
 
 $t=time();
 echo(date("Y-m-d  h:i:s a",$t) . "<br><br>");

@@ -34,7 +34,14 @@ if($Action == "stop") {
 elseif ($Action == "run") {
 	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
 	sleep(1);
-	os.system("python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
+	if(gethostname() == "PiZero1") {
+		os.system("python3 /var/www/CamInterface/Code/PZtimelapse1.py > /dev/null &");
+		echo "Pi Zero<br><br>";
+	}
+	else {
+		os.system("python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
+		echo "Pi 4<br><br>";
+	}
 	sleep(3);
 	echo "Timelapse Started<br><br>";
 }

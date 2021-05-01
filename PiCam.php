@@ -26,6 +26,15 @@ echo "<H3>Function: Timelapse</H3>" ;
 
 <?php
 $Action = $_GET["action"];
+$ForcePiZero = true;
+
+$PicsDir = "/var/www/CamInterface/Pictures";
+if(gethostname() == "PiZero1" || $ForcePiZero) {
+	$PicsDir = "/home/pi/RecroomShare/PiZ1Pictures";
+}
+else {
+	$PicsDir = "/var/www/CamInterface/Pictures";
+}
 
 if($Action == "stop") {
 	os.system("/usr/bin/sudo killall python3 > /dev/null &");
@@ -34,8 +43,8 @@ if($Action == "stop") {
 elseif ($Action == "run") {
 	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
 	sleep(1);
-	if(gethostname() == "PiZero1") {
-		os.system("python3 /var/www/CamInterface/Code/PZtimelapse1.py > /dev/null &");
+	if(gethostname() == "PiZero1" || $ForcePiZero) {
+		os.system("sudo python3 /var/www/CamInterface/Code/PZtimelapse1.py > /dev/null &");
 		echo "Pi Zero<br><br>";
 	}
 	else {
@@ -59,8 +68,10 @@ elseif ($Action == "picstream") {
 }
  
 $FilesArray = scandir("/var/www/CamInterface/Videos");
-$PicsArray = scandir("/var/www/CamInterface/Pictures", 1);
+$PicsArray = scandir($PicsDir, 1);
+os.system("cp -f " . $PicsDir .  "/" . $PicsArray[0] . " /var/www/CamInterface/Pictures/" . $PicsArray[0]);
 
+#Print ("cp -f " . $PicsDir .  "/" . $PicsArray[0] . " /var/www/CamInterface/Pictures/" . $PicsArray[0]);
 Print("Last Pic File: " . $PicsArray[0] . "<br><br>");
 print('<img src="/CamInterface/Pictures/' . $PicsArray[0] . '" width="800">');
 echo "<br><br>";

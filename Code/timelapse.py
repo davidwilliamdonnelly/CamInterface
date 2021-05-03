@@ -9,6 +9,8 @@ from ReadConfig import Config
 #print ("Effective user is [%s]" % (getpass.getuser()));
 
 tlseconds = int(Config["video_split"]) #set this to the number of seconds you wish to run your timelapse camera
+if (tlseconds < 60):
+    tlseconds = 60;
 secondsinterval = int(int(Config["tl_interval"]) / 10); #number of seconds delay between each photo taken
 if (secondsinterval < 5):
     secondsinterval = 5;

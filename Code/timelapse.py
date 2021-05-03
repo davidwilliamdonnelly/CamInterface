@@ -2,6 +2,7 @@ from picamera import PiCamera
 from os import system
 import datetime
 from time import sleep
+from ReadConfig import Config
 
 #import os, getpass
 #print ("Env thinks the user is [%s]" % (os.getlogin()));
@@ -14,7 +15,9 @@ numphotos = int((tlminutes*60)/secondsinterval) #number of photos to take
 print("number of photos to take = ", numphotos)
 
 camera = PiCamera()
-camera.resolution = (1296, 972)
+
+camera.resolution = (Config["video_width"], Config["video_height"])
+camera.brightness = (Config["brightness"])
 
 while (True):
     

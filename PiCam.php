@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-	<title>untitled</title>
+	<title>PiCam</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.33" />
 </head>
@@ -26,7 +26,7 @@ echo "<H3>Function: Timelapse</H3>" ;
 
 <?php
 $Action = $_GET["action"];
-$ForcePiZero = true;
+$ForcePiZero = false;
 
 $PicsDir = "/var/www/CamInterface/Pictures";
 if(gethostname() == "PiZero1" || $ForcePiZero) {
@@ -37,6 +37,8 @@ else {
 }
 
 if($Action == "stop") {
+	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
+	sleep(1);
 	os.system("/usr/bin/sudo killall python3 > /dev/null &");
 	echo "Timelapse Stopped<br><br>";
 }

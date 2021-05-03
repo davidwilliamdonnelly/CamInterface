@@ -4,16 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-	<title>PicStream</title>
+	<title>PicStreamFR</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.33" />
-<?php
-$Action = $_GET["action"];
 
-if($Action != "pause") {
-	echo '<meta http-equiv="refresh" content="1">';
-}
-?>
 </head>
 
 <body>
@@ -29,7 +23,7 @@ echo "<H3>Function: PicStream</H3>" ;
     <button onclick="location.href='/CamInterface/PicStream.php?action=pause'">Pause</button>
     <button onclick="location.href='/CamInterface/PicStream.php?action=run'">Run</button>
     <button onclick="location.href='/CamInterface/PicStreamFR.php'">Full Resolution</button>
-    <br><br>
+	<br><br>
 </div>
 
 <?php
@@ -54,13 +48,13 @@ elseif ($Action == "picstream") {
 	Print('<meta http-equiv="refresh" content="0;url=/CamInterface/PicStream.php">');
 } 
 
-
-os.system("python3 /var/www/CamInterface/Code/PicStream.py /var/www/CamInterface/PicStream/image.jpg > /dev/null");
-
 $t=time();
 echo(date("Y-m-d  h:i:s a",$t) . "<br><br>");
 
-print('<img src="/CamInterface/PicStream/image.jpg' . $PicsArray[0] . '" width="800">');
+echo "<br><br> at full resolution <br><br>";
+print('<img src="/CamInterface/PicStream/image.jpg' . $PicsArray[0] . '" ">');
+echo "<br><br>";
+
 
 ?>
 

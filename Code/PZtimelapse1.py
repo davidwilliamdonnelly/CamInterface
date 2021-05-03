@@ -6,7 +6,9 @@ import datetime
 from time import sleep
 from ReadConfig import Config
 
-secondsinterval = 5 #number of seconds delay between each photo takencamera = PiCamera()
+secondsinterval = int(int(Config["tl_interval"]) / 10); #number of seconds delay between each photo taken
+if (secondsinterval < 5):
+    secondsinterval = 5;
 
 camera = PiCamera()
 camera.resolution = (int(Config["video_width"]), int(Config["video_height"]))

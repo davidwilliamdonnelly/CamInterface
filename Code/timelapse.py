@@ -8,11 +8,15 @@ from ReadConfig import Config
 #print ("Env thinks the user is [%s]" % (os.getlogin()));
 #print ("Effective user is [%s]" % (getpass.getuser()));
 
-tlminutes = 120 #set this to the number of minutes you wish to run your timelapse camera
-secondsinterval = 5 #number of seconds delay between each photo taken
+tlseconds = int(Config["video_split"]) #set this to the number of seconds you wish to run your timelapse camera
+secondsinterval = int(int(Config["tl_interval"]) / 10); #number of seconds delay between each photo taken
+if (secondsinterval < 5):
+    secondsinterval = 5;
+    
 fps = 25 #frames per second timelapse video
-numphotos = int((tlminutes*60)/secondsinterval) #number of photos to take
+numphotos = int(tlseconds/secondsinterval) #number of photos to take
 print("number of photos to take = ", numphotos)
+print ("take a photo every ", secondsinterval, " seconds for ", tlseconds, " seconds")
 
 camera = PiCamera()
 

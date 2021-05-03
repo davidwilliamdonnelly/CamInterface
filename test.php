@@ -34,29 +34,26 @@
 </head>
 
 <body>
-<?php
+<p>Click the button to display a confirm box.</p>
 
-echo "<H2>System Name: " . gethostname() . " at " . $_SERVER['SERVER_ADDR'] . ":" . $_SERVER['SERVER_PORT'] . "</H2>" ;
+<button onclick="ConfirmAction('Shutdown:  Are you sure?', '/CamInterface/test.php?action=confirmed')">Try it</button>
 
 
-print("<br>");
-print(exec ("li"));
 
- exec("ls 2>&1", $output, $return_var);
+<script>
+function ConfirmAction(msg, destination) {
+  if (confirm(msg) == true) {
+    window.location.href = destination;
+  }
+}
+</script>
 
-print_r($output);
-print("<br>");
-print("<br>");
-
- $result_array=explode(' ',$output);
-        echo "Output: ".$result_array."<br>";
-        echo "Exit status: ".$return_var."<br>";
-
+<button onclick="location.href='/CamInterface/test.php?action=stop'">Stop</button>
+<button onclick="location.href='/CamInterface/test.php?action=go'">Go</button>
+<button onclick="location.href='/CamInterface/test.php'">Home</button><?php
 ?>	
 
-<div id="center_button">
-    <button onclick="location.href='/CamInterface/PiCam.php?action=stop'">Back to Home</button>
-</div>
+
 </body>
 
 </html>

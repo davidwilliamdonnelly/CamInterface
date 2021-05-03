@@ -7,6 +7,31 @@
 	<title>PiCam</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.33" />
+
+<style>
+.btn {
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.success {background-color: #04AA6D;} /* Green */
+.success:hover {background-color: #46a049;}
+
+.info {background-color: #2196F3;} /* Blue */
+.info:hover {background: #0b7dda;}
+
+.warning {background-color: #ff9800;} /* Orange */
+.warning:hover {background: #e68a00;}
+
+.danger {background-color: #f44336;} /* Red */ 
+.danger:hover {background: #da190b;}
+
+.default {background-color: #e7e7e7; color: black;} /* Gray */ 
+.default:hover {background: #ddd;}
+</style>
 </head>
 
 <body>
@@ -15,12 +40,21 @@ echo "<H3>System Name: " . gethostname() . " at " . $_SERVER['SERVER_ADDR'] . ":
 echo "<H3>Function: Timelapse</H3>" ;
 ?>
 
+<script>
+function ConfirmAction(msg, destination) {
+  if (confirm(msg) == true) {
+    window.location.href = destination;
+  }
+}
+</script>
+
 <div id="center_button">
-    <button onclick="location.href='/CamInterface/PiCam.php'">Refresh</button>
-    <button onclick="location.href='/CamInterface/PiCam.php?action=stop'">Stop Timelapse</button>
-    <button onclick="location.href='/CamInterface/PiCam.php?action=run'">Start Timelapse</button>
-    <button onclick="location.href='/CamInterface/PiCam.php?action=webcam'">Web Cam</button>
-    <button onclick="location.href='/CamInterface/PiCam.php?action=picstream'">Pic Stream</button>	<br><br>
+    <button class='btn default' onclick="location.href='/CamInterface/PiCam.php'">Refresh</button>
+    <button class='btn default' onclick="location.href='/CamInterface/PiCam.php?action=stop'">Stop Timelapse</button>
+    <button class='btn default' onclick="location.href='/CamInterface/PiCam.php?action=run'">Start Timelapse</button>
+    <button class='btn default' onclick="location.href='/CamInterface/PiCam.php?action=webcam'">Web Cam</button>
+    <button class='btn default' onclick="location.href='/CamInterface/PiCam.php?action=picstream'">Pic Stream</button>
+    <button class='btn danger' onclick="ConfirmAction('Shutdown:  Are you sure?', '/CamInterface/PiCam.php?action=shutdown')">Shutdown</button>
 	<br><br>
 </div>
 
@@ -68,13 +102,17 @@ elseif ($Action == "picstream") {
 	sleep(1);
 	Print('<meta http-equiv="refresh" content="0;url=/CamInterface/PicStream.php">');
 }
+elseif ($Action == "shutdown") {
+	Print('<meta http-equiv="refresh" content="0;url=/CamInterface/PiCam.php">');
+	os.system("/usr/bin/sudo shutdown -P now > /dev/null &");
+}
  
 $FilesArray = scandir("/var/www/CamInterface/Videos");
 $PicsArray = scandir($PicsDir, 1);
 os.system("cp -f " . $PicsDir .  "/" . $PicsArray[0] . " /var/www/CamInterface/Pictures/" . $PicsArray[0]);
 
 #Print ("cp -f " . $PicsDir .  "/" . $PicsArray[0] . " /var/www/CamInterface/Pictures/" . $PicsArray[0]);
-Print("Last Pic File: " . $PicsArray[0] . "<br><br>");
+Print("Last Pic File: " . $PicsArray[0] . " created on " . date ("F d Y H:i:s.", filemtime($PicsDir .  "/" . $PicsArray[0])) . "<br><br>");
 print('<img src="/CamInterface/Pictures/' . $PicsArray[0] . '" width="800">');
 echo "<br><br>";
 

@@ -16,8 +16,8 @@ print("number of photos to take = ", numphotos)
 
 camera = PiCamera()
 
-camera.resolution = (Config["video_width"], Config["video_height"])
-camera.brightness = (Config["brightness"])
+camera.resolution = (int(Config["video_width"]), int(Config["video_height"]))
+camera.brightness = (int(Config["brightness"]))
 
 while (True):
     

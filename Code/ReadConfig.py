@@ -27,6 +27,6 @@ def readConfigs (Config):
         
 Config = {};       
 readConfigs(Config);
-print (Config['video_width'], Config['video_height']);
+
 
 

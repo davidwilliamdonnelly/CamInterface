@@ -24,6 +24,10 @@ def readConfig(config, configFile):
 def readConfigs (Config):
     readConfig (Config, LBASE_DIR + '/' + CONFIG_FILE1);
     readConfig (Config, LBASE_DIR + '/' + CONFIG_FILE2);
+    
+def setConfig(camera):
+    camera.resolution = (int(Config["video_width"]), int(Config["video_height"]))
+    camera.brightness = (int(Config["brightness"]))    
         
 Config = {};       
 readConfigs(Config);

@@ -1,20 +1,21 @@
 import sys
 from picamera import PiCamera
 from time import sleep
-from ReadConfig import Config
+from ReadConfig import Config, setConfig
 
 filename = sys.argv[1]
 
 camera = PiCamera()
-
-camera.resolution = (int(Config["video_width"]), int(Config["video_height"]))
-camera.brightness = (int(Config["brightness"]))
+setConfig(camera)
 
 camera.framerate = 15
 camera.start_preview()
 sleep(2)
 
-camera.capture(filename)
+try:
+    camera.capture(filename)
+except:
+    pass
 
 camera.stop_preview()
 camera.close()

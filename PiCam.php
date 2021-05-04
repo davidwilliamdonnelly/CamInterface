@@ -7,6 +7,9 @@
 	<title>PiCam</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.33" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
 
 <style>
 .btn {
@@ -79,12 +82,11 @@ if($Action == "stop") {
 elseif ($Action == "run") {
 	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
 	sleep(1);
+	os.system("sudo python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
 	if(gethostname() == "PiZero1" || $ForcePiZero) {
-		os.system("sudo python3 /var/www/CamInterface/Code/PZtimelapse1.py > /dev/null &");
 		echo "Pi Zero<br><br>";
 	}
 	else {
-		os.system("python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
 		echo "Pi 4<br><br>";
 	}
 	sleep(3);

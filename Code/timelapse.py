@@ -2,15 +2,17 @@ from picamera import PiCamera
 from os import system
 import datetime
 from time import sleep
-from ReadConfig import Config
+from ReadConfig import Config, setConfig
+import socket
 
-#import os, getpass
-#print ("Env thinks the user is [%s]" % (os.getlogin()));
-#print ("Effective user is [%s]" % (getpass.getuser()));
+hostname = socket.gethostname();
+PiZero = hostname.find("PiZero") >= 0;
+print (PiZero, hostname);
 
 tlseconds = int(Config["video_split"]) #set this to the number of seconds you wish to run your timelapse camera
-if (tlseconds < 60):
-    tlseconds = 60;
+if (tlseconds < 600):
+    tlseconds = 600;
+    
 secondsinterval = int(int(Config["tl_interval"]) / 10); #number of seconds delay between each photo taken
 if (secondsinterval < 5):
     secondsinterval = 5;
@@ -21,10 +23,24 @@ print("number of photos to take = ", numphotos)
 print ("take a photo every ", secondsinterval, " seconds for ", tlseconds, " seconds")
 
 camera = PiCamera()
+setConfig(camera)
 
-camera.resolution = (int(Config["video_width"]), int(Config["video_height"]))
-camera.brightness = (int(Config["brightness"]))
+counter = 0
+if (PiZero):
+    system('rm -f /var/www/CamInterface/Pictures/*.jpg') #delete all photos in the Pictures folder before timelapse start
+    system ('sudo rm -f /home/pi/RecroomShare/PiZ1Pictures/*.jpg')
+    while (True):
+        try:
+            camera.capture('/home/pi/RecroomShare/PiZ1Pictures/image{0:06d}.jpg'.format(counter))
+        except:
+            pass
+        
+        counter = counter + 1
+        if counter > 32000 :
+            counter = 0
+        sleep(secondsinterval)    
 
+# will only get here if we are not running a PiZero
 while (True):
     
     system('rm /var/www/CamInterface/Pictures/*.jpg') #delete all photos in the Pictures folder before timelapse start
@@ -33,10 +49,11 @@ while (True):
     print("RPi started taking photos for your timelapse at: " + datetimeformat)
 
     for i in range(numphotos):
-        camera.capture('/var/www/CamInterface/Pictures/image{0:06d}.jpg'.format(i))
-        #currentTime = datetime.datetime.now()
-        #currentTimeFormatted = currentTime.strftime("%Y-%m-%d  %H:%M:%S")
-        #print('Picture {0:03d}'.format(i) + ' taken at ' + currentTimeFormatted)
+        try:
+            camera.capture('/var/www/CamInterface/Pictures/image{0:06d}.jpg'.format(i))
+        except:
+            pass
+        
         sleep(secondsinterval)
 
     print("Done taking photos for this video.")
@@ -58,5 +75,5 @@ while (True):
     currentTimeFormatted = currentTime.strftime("%Y-%m-%d  %H:%M:%S")
     print('Completed movie: Current Time is ' + currentTimeFormatted)
     
-print('Completed the sequence for this running of the program.')
+
 

@@ -57,8 +57,13 @@ elseif ($Action == "picstream") {
 	Print('<meta http-equiv="refresh" content="0;url=/CamInterface/PicStream.php">');
 } 
 
-
-os.system("python3 /var/www/CamInterface/Code/PicStream.py /var/www/CamInterface/PicStream/image.jpg > /dev/null");
+$output=null;
+$retval=null;
+// execute only if not already running
+exec("pgrep -f 'python3 /var/www/CamInterface/Code/PicStream.py /var/www/CamInterface/PicStream/image.jpg'", $output, $retval);
+if (count($output) == 1) {
+	os.system("python3 /var/www/CamInterface/Code/PicStream.py /var/www/CamInterface/PicStream/image.jpg > /dev/null");
+}
 
 $t=time();
 echo(date("Y-m-d  h:i:s a",$t) . "<br><br>");

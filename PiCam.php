@@ -82,7 +82,13 @@ if($Action == "stop") {
 elseif ($Action == "run") {
 	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
 	sleep(1);
-	os.system("sudo python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
+	// run only if not currently running
+	$output=null;
+	$retval=null;
+	exec("pgrep -f 'python3 /var/www/CamInterface/Code/timelapse.py'", $output, $retval);
+	if (count($output) == 1) {
+		os.system("sudo python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
+	}
 	if(gethostname() == "PiZero1" || $ForcePiZero) {
 		echo "Pi Zero<br><br>";
 	}

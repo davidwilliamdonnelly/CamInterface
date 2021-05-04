@@ -39,6 +39,25 @@
 
 <body>
 <?php
+
+$output=null;
+exec("pgrep -f 'python3 /var/www/CamInterface/Code/timelapse.py'", $output);
+$TLRunning = count($output) > 1;
+if ($TLRunning)
+	print("Initial Condition: TL Running at " . date("h:i:sa") . " <br>");
+else
+	print("Initial Condition: TL Not Running at " . date("h:i:sa") . " <br>");
+
+$output=null;
+exec("pgrep -f 'raspimjpeg'", $output);
+$RaspiRunning = count($output) > 1;
+if ($RaspiRunning) {
+	print("Initial Condition: Raspi Running at " . date("h:i:sa") . " <br>");
+	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null");
+}
+else
+	print("Initial Condition: Raspi Not Running at " . date("h:i:sa") . " <br>");		
+
 echo "<H3>System Name: " . gethostname() . " at " . $_SERVER['SERVER_ADDR'] . ":" . $_SERVER['SERVER_PORT'] . "</H3>" ;
 echo "<H3>Function: Timelapse</H3>" ;
 ?>
@@ -66,48 +85,35 @@ $Action = $_GET["action"];
 $ForcePiZero = false;
 
 $PicsDir = "/var/www/CamInterface/Pictures";
-if(gethostname() == "PiZero1" || $ForcePiZero) {
+
+
+if((strpos(gethostname(), "PiZero") !== false) || $ForcePiZero) {
 	$PicsDir = "/home/pi/RecroomShare/PiZ1Pictures";
+	echo "Pi Zero<br><br>";
 }
 else {
 	$PicsDir = "/var/www/CamInterface/Pictures";
+	echo "Pi 4<br><br>";
 }
 
 if($Action == "stop") {
-	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
-	sleep(1);
-	os.system("/usr/bin/sudo killall python3 > /dev/null &");
+	os.system("/usr/bin/sudo killall python3 > /dev/null");
 	echo "Timelapse Stopped<br><br>";
 }
 elseif ($Action == "run") {
-	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
-	sleep(1);
 	// run only if not currently running
-	$output=null;
-	$retval=null;
-	exec("pgrep -f 'python3 /var/www/CamInterface/Code/timelapse.py'", $output, $retval);
-	if (count($output) == 1) {
+	if (!$TLRunning)
 		os.system("sudo python3 /var/www/CamInterface/Code/timelapse.py > /dev/null &");
-	}
-	if(gethostname() == "PiZero1" || $ForcePiZero) {
-		echo "Pi Zero<br><br>";
-	}
-	else {
-		echo "Pi 4<br><br>";
-	}
 	sleep(3);
 	echo "Timelapse Started<br><br>";
 }
 elseif ($Action == "webcam") {
-	os.system("/usr/bin/sudo killall python3 > /dev/null &");
-	sleep(1);
-	os.system("/home/pi/RPi_Cam_Web_Interface/start.sh > /dev/null &");
+	os.system("/usr/bin/sudo killall python3 > /dev/null");
+	os.system("/home/pi/RPi_Cam_Web_Interface/start.sh > /dev/null");
 	Print('<meta http-equiv="refresh" content="0;url=/html/index.php">');
 }
 elseif ($Action == "picstream") {
-	os.system("/usr/bin/sudo killall python3 > /dev/null &");
-	os.system("/home/pi/RPi_Cam_Web_Interface/stop.sh > /dev/null &");
-	sleep(1);
+	os.system("/usr/bin/sudo killall python3 > /dev/null");
 	Print('<meta http-equiv="refresh" content="0;url=/CamInterface/PicStream.php">');
 }
 elseif ($Action == "shutdown") {

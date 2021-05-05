@@ -26,11 +26,17 @@ def readConfigs (Config):
     readConfig (Config, LBASE_DIR + '/' + CONFIG_FILE2);
     
 def setConfig(camera):
-    camera.resolution = (int(Config["video_width"]), int(Config["video_height"]))
-    camera.brightness = (int(Config["brightness"]))    
-        
+    camera.resolution = (int(Config["video_width"]), int(Config["video_height"]));
+    camera.brightness = (int(Config["brightness"]));
+    camera.annotate_text_size = int(Config["anno_text_size"]);    
+
+    #camera.annotate_background = Config["anno_background"];
+    #camera.annotate_foreground = Config["anno_foreground"]
+
+    
 Config = {};       
 readConfigs(Config);
+#print (Config);
 
 
 

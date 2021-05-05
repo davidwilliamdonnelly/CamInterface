@@ -31,7 +31,7 @@ if (PiZero):
     system ('sudo rm -f /home/pi/RecroomShare/PiZ1Pictures/*.jpg')
     while (True):
         try:
-            camera.annotate_text = datetime.datetime.now().strftime(socket.gethostname() + "  " + Config["annotation"]);
+            camera.annotate_text = datetime.datetime.now().strftime(" " + socket.gethostname() + "  " + Config["annotation"] + " ");
             camera.capture('/home/pi/RecroomShare/PiZ1Pictures/image{0:06d}.jpg'.format(counter))
         except:
             pass
@@ -51,7 +51,7 @@ while (True):
 
     for i in range(numphotos):
         try:
-            camera.annotate_text = datetime.datetime.now().strftime(socket.gethostname() + "  " + Config["annotation"]);
+            camera.annotate_text = datetime.datetime.now().strftime(" " + socket.gethostname() + "  " + Config["annotation"] + " ");
             camera.capture('/var/www/CamInterface/Pictures/image{0:06d}.jpg'.format(i))
         except:
             pass

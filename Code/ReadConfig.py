@@ -1,5 +1,6 @@
 import os.path
-        
+from picamera import Color
+
 #Local define of base diretory for routines here
 LBASE_DIR = "/var/www/html";
 #Global defines and utility functions
@@ -28,11 +29,17 @@ def readConfigs (Config):
 def setConfig(camera):
     camera.resolution = (int(Config["video_width"]), int(Config["video_height"]));
     camera.brightness = (int(Config["brightness"]));
-    camera.annotate_text_size = int(Config["anno_text_size"]);    
-
-    #camera.annotate_background = Config["anno_background"];
-    #camera.annotate_foreground = Config["anno_foreground"]
-
+    camera.sharpness = (int(Config["sharpness"]));
+    camera.contrast = (int(Config["contrast"]));
+    camera.saturation = (int(Config["saturation"]));
+    camera.iso = (int(Config["iso"]));
+    camera.meter_mode = Config["metering_mode"];
+    camera.annotate_text_size = int(Config["anno_text_size"]);
+    
+    if (int(Config["anno_background"]) == 1):
+        camera.annotate_background = Color(r=int(Config["anno3_custom_background_Y"]), g=int(Config["anno3_custom_background_U"]), b=int(Config["anno3_custom_background_V"]));
+    if (int(Config["anno3_custom_text_colour"]) == 1):
+        camera.annotate_foreground = Color(y=2 * int(Config["anno3_custom_text_Y"]), u=0, v=0);
     
 Config = {};       
 readConfigs(Config);

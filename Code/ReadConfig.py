@@ -36,9 +36,9 @@ def setConfig(camera):
     camera.meter_mode = Config["metering_mode"];
     camera.annotate_text_size = int(Config["anno_text_size"]);
     
-    if (int(Config["anno_background"]) == 1):
+    if (Config["anno_background"] == "1"):
         camera.annotate_background = Color(r=int(Config["anno3_custom_background_Y"]), g=int(Config["anno3_custom_background_U"]), b=int(Config["anno3_custom_background_V"]));
-    if (int(Config["anno3_custom_text_colour"]) == 1):
+    if (Config["anno3_custom_text_colour"] == "1"):
         camera.annotate_foreground = Color(y=2 * int(Config["anno3_custom_text_Y"]), u=0, v=0);
     
 Config = {};       

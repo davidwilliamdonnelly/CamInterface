@@ -3,6 +3,8 @@ from picamera import Color
 
 #Local define of base diretory for routines here
 LBASE_DIR = "/var/www/html";
+CONFIG_DIR = "/var/www/CamInterface";
+
 #Global defines and utility functions
 # version string 
 APP_VERSION = 'v6.6.13';
@@ -10,6 +12,7 @@ APP_VERSION = 'v6.6.13';
 CONFIG_FILE1 ='raspimjpeg';
 # file where user specific settings changes are stored
 CONFIG_FILE2= 'uconfig';
+CONFIG_FILE3= 'PiCam.conf';
 
 def readConfig(config, configFile):
     if (os.path.exists(configFile)):
@@ -25,6 +28,7 @@ def readConfig(config, configFile):
 def readConfigs (Config):
     readConfig (Config, LBASE_DIR + '/' + CONFIG_FILE1);
     readConfig (Config, LBASE_DIR + '/' + CONFIG_FILE2);
+    readConfig (Config, CONFIG_DIR + '/' + CONFIG_FILE3);
     
 def setConfig(camera):
     camera.resolution = (int(Config["video_width"]), int(Config["video_height"]));

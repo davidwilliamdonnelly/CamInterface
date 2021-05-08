@@ -28,7 +28,9 @@ print('   <video width="1024"  controls>');
 print('      <source src="' . $VidFile . '" type=video/mp4>');
 print('    </video>');
 
-echo "<br><br>" . $_GET["file"] . "<br><br>";
+echo "<br><br>" . $_GET["file"] . " from Pics in ";
+$dirName = strtok($_GET["file"] , ".");
+print('<a href="../CamInterface/Pictures/Ar_' . $dirName . '">Ar_' . $dirName . '</a><br>'); 
 
 ?>	
 

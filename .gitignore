@@ -6,5 +6,8 @@
 *.mpg
 *.mpeg
 *.avi
+__pycache__
+
+
 
 

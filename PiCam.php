@@ -11,30 +11,30 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Expires" content="0">
 
-<style>
-.btn {
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
+	<style>
+	.btn {
+	  border: none;
+	  color: white;
+	  padding: 10px 20px;
+	  font-size: 16px;
+	  cursor: pointer;
+	}
 
-.success {background-color: #04AA6D;} /* Green */
-.success:hover {background-color: #46a049;}
+	.success {background-color: #04AA6D;} /* Green */
+	.success:hover {background-color: #46a049;}
 
-.info {background-color: #2196F3;} /* Blue */
-.info:hover {background: #0b7dda;}
+	.info {background-color: #2196F3;} /* Blue */
+	.info:hover {background: #0b7dda;}
 
-.warning {background-color: #ff9800;} /* Orange */
-.warning:hover {background: #e68a00;}
+	.warning {background-color: #ff9800;} /* Orange */
+	.warning:hover {background: #e68a00;}
 
-.danger {background-color: #f44336;} /* Red */ 
-.danger:hover {background: #da190b;}
+	.danger {background-color: #f44336;} /* Red */ 
+	.danger:hover {background: #da190b;}
 
-.default {background-color: #e7e7e7; color: black;} /* Gray */ 
-.default:hover {background: #ddd;}
-</style>
+	.default {background-color: #e7e7e7; color: black;} /* Gray */ 
+	.default:hover {background: #ddd;}
+	</style>
 </head>
 
 <body>
